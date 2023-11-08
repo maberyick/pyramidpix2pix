@@ -4,12 +4,12 @@ import numpy as np
 import pandas as pd
 
 # Define the paths to the input image and mask folders
-image_folder = "/home/maberyick/pCloudDrive/CCIPD_echo/Projects/Immune_SCLC/dl_training/test/im/"
-mask_folder = "/home/maberyick/pCloudDrive/CCIPD_echo/Projects/Immune_SCLC/dl_training/test/mask/"
+image_folder = "/home/cbarr23/Documents/sclc_annotation/tumor_segmentation_images/pix2pix_split/train/he/"
+mask_folder = "/home/cbarr23/pCloudDrive/CCIPD_echo/Projects/Immune_SCLC/dl_training/mask/"
 
 # Define the output folders for patches
-output_image_folder = "/home/maberyick/pCloudDrive/CCIPD_echo/Projects/Immune_SCLC/dl_training/test/pix2pix_patch/im/"
-output_mask_folder = "/home/maberyick/pCloudDrive/CCIPD_echo/Projects/Immune_SCLC/dl_training/test/pix2pix_patch/mask/"
+output_image_folder = "/home/cbarr23/Documents/sclc_annotation/tumor_segmentation_images/pix2pix_split/patch/train/im/"
+output_mask_folder = "/home/cbarr23/Documents/sclc_annotation/tumor_segmentation_images/pix2pix_split/patch/train/mask/"
 
 # Ensure the output folders exist
 os.makedirs(output_image_folder, exist_ok=True)
@@ -22,7 +22,7 @@ patch_size = (1024, 1024)
 white_threshold = 85  # Adjust as needed
 
 # Create a CSV file to track patches
-csv_filename = "/home/maberyick/pCloudDrive/CCIPD_echo/Projects/Immune_SCLC/dl_training/test/patch_tracking.csv"
+csv_filename = "/home/cbarr23/Documents/sclc_annotation/tumor_segmentation_images/pix2pix_split/patch/train/patch_tracking.csv"
 csv_columns = ["patch_name", "image_file_name", "status", "reason", "width", "height"]
 
 # Initialize a list to store patch information
