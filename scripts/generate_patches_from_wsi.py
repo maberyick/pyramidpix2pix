@@ -16,10 +16,10 @@ os.makedirs(output_image_folder, exist_ok=True)
 os.makedirs(output_mask_folder, exist_ok=True)
 
 # Define the patch size
-patch_size = (1024, 1024)
+patch_size = (256, 256)
 
 # Define the white pixel threshold (percentage)
-white_threshold = 85  # Adjust as needed
+white_threshold = 90 # Adjust as needed
 
 # Create a CSV file to track patches
 csv_filename = "/home/cbarr23/Documents/sclc_annotation/tumor_segmentation_images/pix2pix_split/patch/train/patch_tracking.csv"
@@ -68,8 +68,8 @@ for i, image_file in enumerate(image_files, start=1):
                 status = "saved"
 
             # Define patch filenames based on image filename
-            patch_image_filename = f"{os.path.splitext(image_file)[0]}_{x}_{y}_im.png"
-            patch_mask_filename = f"{os.path.splitext(image_file)[0]}_{x}_{y}_mask.png"
+            patch_image_filename = f"{os.path.splitext(image_file)[0]}_{x}_{y}.png"
+            patch_mask_filename = f"{os.path.splitext(image_file)[0]}_{x}_{y}.png"
 
             # Save the patches to the output folders
             if status == "saved":
