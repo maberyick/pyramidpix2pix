@@ -1,13 +1,14 @@
 import cv2
 import os
+import numpy as np
 
 # Define the paths to the input image and mask folders
-image_folder = "/home/maberyick/pCloudDrive/CCIPD_echo/Projects/Immune_SCLC/dl_training/test/im/"
-mask_folder = "/home/maberyick/pCloudDrive/CCIPD_echo/Projects/Immune_SCLC/dl_training/test/mask/"
+image_folder = "/home/cbarr23/Documents/sclc_annotation/tumor_segmentation_images/pix2pix_split/train/he/"
+mask_folder = "/home/cbarr23/pCloudDrive/CCIPD_echo/Projects/Immune_SCLC/dl_training/mask/"
 
 # Define the output folders for patches
-output_image_folder = "/home/maberyick/pCloudDrive/CCIPD_echo/Projects/Immune_SCLC/dl_training/test/pix2pix_patch/he/test/"
-output_mask_folder = "/home/maberyick/pCloudDrive/CCIPD_echo/Projects/Immune_SCLC/dl_training/test/pix2pix_patch/mask/test/"
+output_image_folder = "/home/cbarr23/Documents/sclc_annotation/tumor_segmentation_images/pix2pix_split/patch/train/im/"
+output_mask_folder = "/home/cbarr23/Documents/sclc_annotation/tumor_segmentation_images/pix2pix_split/patch/train/mask/"
 
 # Ensure the output folders exist
 os.makedirs(output_image_folder, exist_ok=True)
@@ -17,7 +18,7 @@ os.makedirs(output_mask_folder, exist_ok=True)
 patch_size = (256, 256)
 
 # Define the white pixel threshold (percentage)
-white_threshold = 85  # Adjust as needed
+white_threshold = 25  # Adjust as needed
 
 # Iterate through all image files in the input folder
 image_files = [f for f in os.listdir(image_folder) if f.endswith("snapshot.png")]
