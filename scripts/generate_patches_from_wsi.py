@@ -18,6 +18,10 @@ os.makedirs(output_mask_folder, exist_ok=True)
 # Define the patch size
 patch_size = (1024, 1024)
 
+# Define the color thresholds (adjust as needed)
+blue_threshold = 100  # Adjust as needed
+red_threshold = 100   # Adjust as needed
+
 # Define the white pixel threshold (percentage)
 white_threshold = 85  # Adjust as needed
 
@@ -53,9 +57,14 @@ for i, image_file in enumerate(image_files, start=1):
             # Calculate the percentage of white pixels in the patch
             white_percentage = (np.sum(patch_image == [255, 255, 255]) / patch_image.size) * 100
 
-            # Check if the patch contains mostly white pixels
-            if white_percentage >= white_threshold:
-                reason = "Too white"
+            # Calculate the percentage of pixels below the color thresholds
+            blue_below_threshold = np.sum(patch_image[:, :, 0] < blue_threshold)
+            red_below_threshold = np.sum(patch_image[:, :, 2] < red_threshold)
+            color_percentage = ((blue_below_threshold + red_below_threshold) / patch_image.size) * 100
+
+            # Check if the patch contains mostly white pixels or light-colored speckles
+            if white_percentage >= white_threshold or color_percentage >= white_threshold:
+                reason = "Too white or light-colored"
                 status = "ignored"
                 # Create a black patch for the ignored region
                 patch_image = np.zeros_like(patch_image)
@@ -78,7 +87,6 @@ for i, image_file in enumerate(image_files, start=1):
 
             # Record patch information
             patch_info.append([patch_image_filename, image_file, status, reason, patch_image.shape[1], patch_image.shape[0]])
-
 
 # Create a DataFrame from the patch information
 patch_df = pd.DataFrame(patch_info, columns=csv_columns)
