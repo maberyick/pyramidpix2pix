@@ -55,7 +55,13 @@ for i, image_file in enumerate(image_files, start=1):
             patch_mask = mask[x:x + patch_size[0], y:y + patch_size[1]]
 
             # Calculate the percentage of white pixels in the patch
-            white_percentage = (np.sum(patch_image == [255, 255, 255]) / patch_image.size) * 100.0
+            # Define the white pixel threshold (percentage)
+            white_threshold = 85  # Adjust as needed
+            # Define the range for white or light-colored pixels
+            white_range = ([200, 200, 200], [255, 255, 255])  # Adjust as needed
+            # Calculate the percentage of white pixels in the patch
+            white_percentage = ((patch_image >= white_range[0]) & (patch_image <= white_range[1])).all(axis=2).sum() / patch_image.size * 100
+            #white_percentage = (np.sum(patch_image == [255, 255, 255]) / patch_image.size) * 100.0
 
             # Calculate the percentage of pixels below the color thresholds
             blue_below_threshold = np.sum(patch_image[:, :, 0] < blue_threshold)
