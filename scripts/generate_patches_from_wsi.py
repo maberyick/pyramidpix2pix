@@ -23,10 +23,10 @@ blue_threshold = 100  # Adjust as needed
 red_threshold = 100   # Adjust as needed
 
 # Define the white pixel threshold (percentage)
-white_threshold = 90 # Adjust as needed
+white_threshold = 35 # Adjust as needed
 
 # Create a CSV file to track patches
-csv_filename = "/home/cbarr23/Documents/sclc_annotation/tumor_segmentation_images/pix2pix_split/patch/train/patch_tracking.csv"
+csv_filename = "/home/cbarr23/Documents/sclc_annotation/tumor_segmentation_images/pix2pix_split/patch/patch_tracking.csv"
 csv_columns = ["patch_name", "image_file_name", "status", "reason", "width", "height"]
 
 # Initialize a list to store patch information
@@ -55,15 +55,21 @@ for i, image_file in enumerate(image_files, start=1):
             patch_mask = mask[x:x + patch_size[0], y:y + patch_size[1]]
 
             # Calculate the percentage of white pixels in the patch
-            white_percentage = (np.sum(patch_image == [255, 255, 255]) / patch_image.size) * 100
+            white_percentage = (np.sum(patch_image == [255, 255, 255]) / patch_image.size) * 100.0
 
             # Calculate the percentage of pixels below the color thresholds
             blue_below_threshold = np.sum(patch_image[:, :, 0] < blue_threshold)
             red_below_threshold = np.sum(patch_image[:, :, 2] < red_threshold)
-            color_percentage = ((blue_below_threshold + red_below_threshold) / patch_image.size) * 100
-
+            color_percentage = ((blue_below_threshold + red_below_threshold) / patch_image.size) * 100.0
+            print("image type")
+            print(np.sum(patch_image == [255,255,255]))
+            print("white space")
+            print(white_percentage)
+            print("color issue")
+            print(color_percentage)
             # Check if the patch contains mostly white pixels or light-colored speckles
             if white_percentage >= white_threshold or color_percentage >= white_threshold:
+                print("here is white")
                 reason = "Too white or light-colored"
                 status = "ignored"
                 # Create a black patch for the ignored region
