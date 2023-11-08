@@ -16,10 +16,17 @@ os.makedirs(output_mask_folder, exist_ok=True)
 # Define the patch size
 patch_size = (256, 256)
 
+# Define the white pixel threshold (percentage)
+white_threshold = 85  # Adjust as needed
+
 # Iterate through all image files in the input folder
 image_files = [f for f in os.listdir(image_folder) if f.endswith("snapshot.png")]
 
-for image_file in image_files:
+total_images = len(image_files)
+
+for i, image_file in enumerate(image_files, start=1):
+    print(f"Processing image {i}/{total_images}: {image_file}")
+
     # Load the image and corresponding mask
     image_path = os.path.join(image_folder, image_file)
     mask_file = image_file.replace("snapshot.png", "labels.png")
@@ -34,9 +41,16 @@ for image_file in image_files:
             patch_image = image[x:x + patch_size[0], y:y + patch_size[1]]
             patch_mask = mask[x:x + patch_size[0], y:y + patch_size[1]]
 
+            # Calculate the percentage of white pixels in the patch
+            white_percentage = (np.sum(patch_image == [255, 255, 255]) / patch_image.size) * 100
+
+            # Check if the patch contains mostly white pixels
+            if white_percentage >= white_threshold:
+                continue  # Skip this patch
+
             # Define patch filenames based on image filename
-            patch_image_filename = f"{os.path.splitext(image_file)[0]}_{x}_{y}.png"
-            patch_mask_filename = f"{os.path.splitext(image_file)[0]}_{x}_{y}.png"
+            patch_image_filename = f"{os.path.splitext(image_file)[0]}_{x}_{y}_im.png"
+            patch_mask_filename = f"{os.path.splitext(image_file)[0]}_{x}_{y}_mask.png"
 
             # Save the patches to the output folders
             cv2.imwrite(os.path.join(output_image_folder, patch_image_filename), patch_image)
