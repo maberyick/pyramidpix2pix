@@ -4,29 +4,29 @@ import numpy as np
 import pandas as pd
 
 # Define the paths to the input image and mask folders
-image_folder = "/home/maberyick/pCloudDrive/CCIPD_echo/Projects/Immune_SCLC/dl_training/test/im/"
-mask_folder = "/home/maberyick/pCloudDrive/CCIPD_echo/Projects/Immune_SCLC/dl_training/test/mask/"
+image_folder = "/home/cbarr23/Documents/sclc_annotation/tumor_segmentation_images/pix2pix_split/train/he/"
+mask_folder = "/home/cbarr23/pCloudDrive/CCIPD_echo/Projects/Immune_SCLC/dl_training/mask/"
 
 # Define the output folders for patches
-output_image_folder = "/home/maberyick/pCloudDrive/CCIPD_echo/Projects/Immune_SCLC/dl_training/test/pix2pix_patch/im/"
-output_mask_folder = "/home/maberyick/pCloudDrive/CCIPD_echo/Projects/Immune_SCLC/dl_training/test/pix2pix_patch/mask/"
+output_image_folder = "/home/cbarr23/Documents/sclc_annotation/tumor_segmentation_images/pix2pix_split/patch/train/im/"
+output_mask_folder = "/home/cbarr23/Documents/sclc_annotation/tumor_segmentation_images/pix2pix_split/patch/train/mask/"
 
 # Ensure the output folders exist
 os.makedirs(output_image_folder, exist_ok=True)
 os.makedirs(output_mask_folder, exist_ok=True)
 
 # Define the patch size
-patch_size = (1024, 1024)
+patch_size = (256, 256)
 
 # Define the color thresholds (adjust as needed)
 blue_threshold = 100  # Adjust as needed
 red_threshold = 100   # Adjust as needed
 
 # Define the white pixel threshold (percentage)
-white_threshold = 85  # Adjust as needed
+white_threshold = 90 # Adjust as needed
 
 # Create a CSV file to track patches
-csv_filename = "/home/maberyick/pCloudDrive/CCIPD_echo/Projects/Immune_SCLC/dl_training/test/patch_tracking.csv"
+csv_filename = "/home/cbarr23/Documents/sclc_annotation/tumor_segmentation_images/pix2pix_split/patch/train/patch_tracking.csv"
 csv_columns = ["patch_name", "image_file_name", "status", "reason", "width", "height"]
 
 # Initialize a list to store patch information
@@ -77,8 +77,8 @@ for i, image_file in enumerate(image_files, start=1):
                 status = "saved"
 
             # Define patch filenames based on image filename
-            patch_image_filename = f"{os.path.splitext(image_file)[0]}_{x}_{y}_im.png"
-            patch_mask_filename = f"{os.path.splitext(image_file)[0]}_{x}_{y}_mask.png"
+            patch_image_filename = f"{os.path.splitext(image_file)[0]}_{x}_{y}.png"
+            patch_mask_filename = f"{os.path.splitext(image_file)[0]}_{x}_{y}.png"
 
             # Save the patches to the output folders
             if status == "saved":
