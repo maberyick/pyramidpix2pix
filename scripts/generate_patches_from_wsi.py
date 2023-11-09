@@ -16,8 +16,8 @@ os.makedirs(output_image_folder, exist_ok=True)
 os.makedirs(output_mask_folder, exist_ok=True)
 
 # Define the patch size
-patch_size = (512, 512)
-desired_patch_size = (256, 256)
+patch_size = (4096, 4096)
+desired_patch_size = (1024, 1024)
 # Define the color thresholds (adjust as needed)
 blue_threshold = 100  # Adjust as needed
 red_threshold = 100   # Adjust as needed
@@ -27,7 +27,7 @@ white_threshold = 30 # Adjust as needed
 
 # Create a CSV file to track patches
 csv_filename = "/home/cbarr23/Documents/nsclc_annotation/epi_work/pix2pix_mix/patch_tracking_test.csv"
-csv_columns = ["patch_name", "image_file_name", "status", "reason", "width", "height"]
+csv_columns = ["patch_name", "image_file_name", "status", "reason", "width", "height", "wsi_width", "wsi_height"]
 
 # Initialize a list to store patch information
 patch_info = []
@@ -49,6 +49,12 @@ for i, image_file in enumerate(image_files, start=1):
 
     image = cv2.imread(image_path)
     mask = cv2.imread(mask_path)
+
+    # Resize image and mask
+    #original_height, original_width = image.shape[:2]
+    # Resize the image by a factor of 2
+    #image = cv2.resize(image, (original_width // 4, original_height // 4))
+    #mask = cv2.resize(mask, (original_width // 4, original_height // 4))
 
     # Split the image and mask into patches
     for x in range(0, image.shape[0], patch_size[0]):
@@ -92,7 +98,7 @@ for i, image_file in enumerate(image_files, start=1):
                 cv2.imwrite(os.path.join(output_mask_folder, patch_mask_filename), patch_mask)
 
             # Record patch information
-            patch_info.append([patch_image_filename, image_file, status, reason, patch_image.shape[1], patch_image.shape[0]])
+            patch_info.append([patch_image_filename, image_file, status, reason, patch_image.shape[1], patch_image.shape[0], original_width, original_height])
 
 # Create a DataFrame from the patch information
 patch_df = pd.DataFrame(patch_info, columns=csv_columns)
