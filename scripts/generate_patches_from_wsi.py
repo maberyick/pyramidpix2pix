@@ -16,8 +16,8 @@ os.makedirs(output_image_folder, exist_ok=True)
 os.makedirs(output_mask_folder, exist_ok=True)
 
 # Define the patch size
-patch_size = (256, 256)
-
+patch_size = (1024, 1024)
+desired_patch_size = (256, 256)
 # Define the color thresholds (adjust as needed)
 blue_threshold = 100  # Adjust as needed
 red_threshold = 100   # Adjust as needed
@@ -83,6 +83,9 @@ for i, image_file in enumerate(image_files, start=1):
 
             # Save the patches to the output folders
             if status == "saved":
+                # Resize the patches to the desired size
+                patch_image = cv2.resize(patch_image, desired_patch_size)
+                patch_mask = cv2.resize(patch_mask, desired_patch_size)
                 cv2.imwrite(os.path.join(output_image_folder, patch_image_filename), patch_image)
                 cv2.imwrite(os.path.join(output_mask_folder, patch_mask_filename), patch_mask)
 
