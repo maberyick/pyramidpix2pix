@@ -4,19 +4,19 @@ import numpy as np
 import pandas as pd
 
 # Define the paths to the input image and mask folders
-image_folder = "/home/cbarr23/Documents/sclc_annotation/tumor_segmentation_images/pix2pix_split/train/he/"
-mask_folder = "/home/cbarr23/pCloudDrive/CCIPD_echo/Projects/Immune_SCLC/dl_training/mask/"
+image_folder = "/home/cbarr23/Documents/nsclc_annotation/epi_work/test/he/"
+mask_folder = "/home/cbarr23/Documents/nsclc_annotation/epi_work/epi_mask/"
 
 # Define the output folders for patches
-output_image_folder = "/home/cbarr23/Documents/sclc_annotation/tumor_segmentation_images/pix2pix_split/patch/train/im/"
-output_mask_folder = "/home/cbarr23/Documents/sclc_annotation/tumor_segmentation_images/pix2pix_split/patch/train/mask/"
+output_image_folder = "/home/cbarr23/Documents/nsclc_annotation/epi_work/pix2pix_mix/test/im/"
+output_mask_folder = "/home/cbarr23/Documents/nsclc_annotation/epi_work/pix2pix_mix/test/mask/"
 
 # Ensure the output folders exist
 os.makedirs(output_image_folder, exist_ok=True)
 os.makedirs(output_mask_folder, exist_ok=True)
 
 # Define the patch size
-patch_size = (1024, 1024)
+patch_size = (512, 512)
 desired_patch_size = (256, 256)
 # Define the color thresholds (adjust as needed)
 blue_threshold = 100  # Adjust as needed
@@ -26,14 +26,15 @@ red_threshold = 100   # Adjust as needed
 white_threshold = 30 # Adjust as needed
 
 # Create a CSV file to track patches
-csv_filename = "/home/cbarr23/Documents/sclc_annotation/tumor_segmentation_images/pix2pix_split/patch/patch_tracking.csv"
+csv_filename = "/home/cbarr23/Documents/nsclc_annotation/epi_work/pix2pix_mix/patch_tracking_test.csv"
 csv_columns = ["patch_name", "image_file_name", "status", "reason", "width", "height"]
 
 # Initialize a list to store patch information
 patch_info = []
 
 # Iterate through all image files in the input folder
-image_files = [f for f in os.listdir(image_folder) if f.endswith("snapshot.png")]
+#image_files = [f for f in os.listdir(image_folder) if f.endswith("snapshot.png")]
+image_files = [f for f in os.listdir(image_folder) if f.endswith(".png")]
 
 total_images = len(image_files)
 
@@ -42,7 +43,8 @@ for i, image_file in enumerate(image_files, start=1):
 
     # Load the image and corresponding mask
     image_path = os.path.join(image_folder, image_file)
-    mask_file = image_file.replace("snapshot.png", "labels.png")
+    #mask_file = image_file.replace("snapshot.png", "labels.png")
+    mask_file = image_file.replace(".png", ".png")
     mask_path = os.path.join(mask_folder, mask_file)
 
     image = cv2.imread(image_path)
