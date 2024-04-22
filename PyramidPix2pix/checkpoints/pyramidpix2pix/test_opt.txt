@@ -3,7 +3,7 @@
                batch_size: 2                             
           checkpoints_dir: ./checkpoints                 
                 crop_size: 256                           
-                 dataroot: /home/maberyick/pCloudDrive/CCIPD_echo/Projects/Immune_SCLC/dl_training/test/smaller_version_2/mix/	[default: ./datasets/BCI]
+                 dataroot: /home/maberyick/pCloudDrive/CCIPD_echo/Projects/Immune_SCLC/dl_training/test/smaller_version_2/mix_2/	[default: ./datasets/BCI]
              dataset_mode: aligned                       
                 direction: AtoB                          
           display_winsize: 256                           

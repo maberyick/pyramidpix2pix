@@ -10,7 +10,8 @@ if original_image is not None:
     original_height, original_width = original_image.shape[:2]
 
     # Resize the image by a factor of 2
-    resized_image = cv2.resize(original_image, (original_width // 4, original_height // 4))
+    resized_image = cv2.resize(original_image, (original_width // 8, original_width // 8))
+
 
     # Save the resized image
     output_path = "/home/maberyick/pCloudDrive/CCIPD_echo/Projects/Immune_SCLC/dl_training/test/pix2pix/mix/test/resized_image.png"  # Replace with your desired output path
